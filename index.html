@@ -6,12 +6,54 @@
     <title>Document</title>
 </head>
 <body>
+
+    <div id="buttons">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+    <div id="results"></div>
+    <div id="scoreboard">0 - 0</div>
+    <div id="gameOver"></div>
     
     <script>
+        /*
+        const rock = document.querySelector("#rock");
+        const paper = document.querySelector("#paper");
+        const scissors = document.querySelector("#scissors")
+        */
+
+        let buttons = document.querySelector("#buttons");
+        let roundResult = document.querySelector("#results");
+        let scoreboard = document.querySelector("#scoreboard");
+        let gameOver = document.querySelector("#gameOver");
+
+        buttons.addEventListener("click", (event) => {
+            let target = event.target;
+            let modHuman;
+            let modCPU;
+            modCPU = getComputerChoice(modCPU);
+
+            switch(target.id) {
+                case "rock":
+                    modHuman = "rock";
+                    playRound(modHuman, modCPU);
+                    break;
+                case "paper":
+                    modHuman = "paper";
+                    playRound(modHuman, modCPU);
+                    break;
+                case "scissors":
+                    modHuman = "scissors";
+                    playRound(modHuman, modCPU);
+                    break;
+            }
+        })
+
         let cpuScore = 0;
         let humanScore = 0;
 
-        playGame();
+        //playGame();
 
         function getComputerChoice(choice) {
             let numChoice = Math.floor(Math.random() * 3);
@@ -35,34 +77,42 @@
             || (humanChoice == "paper" && computerChoice == "Rock")
             || (humanChoice == "scissors" && computerChoice == "Paper")) {
                 if (humanChoice == "rock") {
-                    console.log("You win! Rock beats Scissors");
+                    roundResult.textContent = "You win! Rock beats Scissors";
                 } else if (humanChoice == "paper") {
-                    console.log("You win! Paper beats Rock");
+                    roundResult.textContent = "You win! Paper beats Rock";
                 } else if (humanChoice == "scissors") {
-                    console.log("You win! Scissors beats Paper");
+                    roundResult.textContent = "You win! Scissors beats Paper";
                 }
                 humanScore++;
             } else if ((computerChoice == "Rock" && humanChoice == "scissors")
             || (computerChoice == "Paper" && humanChoice == "rock")
             || (computerChoice == "Scissors" && humanChoice == "paper")) {
                 if (computerChoice == "Rock") {
-                    console.log("You lose! Rock beats Scissors");
+                    roundResult.textContent = "You lose! Rock beats Scissors";
                 } else if (computerChoice == "Paper") {
-                    console.log("You lose! Paper beats Rock");
+                    roundResult.textContent = "You lose! Paper beats Rock";
                 } else if (computerChoice == "Scissors") {
-                    console.log("You lose! Scissors beats Paper");
+                    roundResult.textContent = "You lose! Scissors beats Paper";
                 }
                 cpuScore++;
             } else {
-                console.log("Tie!");
+                roundResult.textContent = "Tie!";
             }
+
+            scoreboard.textContent = `${humanScore} - ${cpuScore}`;
+
+            if (humanScore === 5 || cpuScore === 5) {
+                const winner = humanScore === 5 ? "You win the game!" : "Computer wins the game!";
+                gameOver.textContent = winner;
+            }
+
+
         }
 
         function playGame() {
         let cpu;
         let human;
         
-
         while (cpuScore < 5 && humanScore < 5) {
             human = getHumanChoice(human);
             cpu = getComputerChoice(cpu);
